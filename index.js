@@ -2,9 +2,11 @@ require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
-const app = express()
+const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 
 try {
     mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.fl6wx.mongodb.net/quiz?retryWrites=true&w=majority`);
