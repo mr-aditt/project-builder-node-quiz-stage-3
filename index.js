@@ -33,78 +33,70 @@ const ANSWER = mongoose.model("answer", answersSchema);
 ////////////////////////////QUESTIONS////////////////////////////////
 app.route("/api/questions")
 .get(async function(req, res){
-    USER.find((err, foundArray)=>{
+    QUESTION.find((err, foundArray)=>{
         if(!err){
             res.send(foundArray);
         }else{
-            res.status(500).send({ errorMessage: "The users information could not be retrieved." })
+            res.status(500).send({ errorMessage: "The data could not be retrieved." })
         }
     })
 })
-// Creates a user using the information sent inside the request body.
+// Creates a question using the information sent inside the request body.
 .post(async function(req, res){
-    const newUser = new USER({
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age,
-        prograd_id: req.body.prograd_id,
-        squad: req.body.squad
+    const newQuestion = new QUESTION({
+        question: req.body.question
     });
 
-    newUser.save(err=>{
+    newQuestion.save(err=>{
         if(!err){
-            res.status(201).send(newUser);
+            res.status(201).send(newQuestion);
         }else{
-            res.status(400).send({errorMessage: "Please provide name and email for the user." });
+            res.status(400).send({errorMessage: "Please provide data for the question." });
         }
     });
 });
 
 
 app.route("/api/questions/:id")
-// Returns the user object with the specified id.
+// Returns the question object with the specified id.
 .get(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The question with the specified ID does not exist." })
     }
-    USER.findOne({_id: req.params.id}, (err, foundUser)=>{
-        if(foundUser){
-            res.send(foundUser);
+    QUESTION.findOne({_id: req.params.id}, (err, foundQuestion)=>{
+        if(foundQuestion){
+            res.send(foundQuestion);
         }else{
-            res.status(500).send({ errorMessage: "The user information could not be retrieved." })
+            res.status(500).send({ errorMessage: "The question information could not be retrieved." })
         }
     })
 })
-// Updates the user with the specified id using data from the request body. Returns the modified user
+// Updates the question with the specified id using data from the request body. Returns the modified question
 .put(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The question with the specified ID does not exist." })
     }
 
-    USER.findByIdAndUpdate({_id:req.params.id}, {
-            name: req.body.name,
-            email: req.body.email,
-            age: req.body.age,
-            prograd_id: req.body.prograd_id,
-            squad: req.body.squad
-        }, {overwrite:true, new:true}, (err, user)=>{
+    QUESTION.findByIdAndUpdate({_id:req.params.id}, {
+            question: req.body.question
+        }, {overwrite:true, new:true}, (err, data)=>{
         if(!err){
-            res.status(200).send(user);
+            res.status(200).send(data);
         }else{
-            res.status(500).send({ errorMessage: "The user information could not be modified." })
+            res.status(500).send({ errorMessage: "The question information could not be modified." })
         }
     })
 })
-// Removes the user with the specified id and returns the deleted user.
+// Removes the question with the specified id and returns the deleted question.
 .delete(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The question with the specified ID does not exist." })
     }
-    USER.deleteOne({_id: req.params.id}, err=>{
+    QUESTION.deleteOne({_id: req.params.id}, err=>{
         if(!err){
             res.send("Successfully DELETED "+req.params.id);
         }else{
-            res.status(500).send({ errorMessage: " The user could not be removed" })
+            res.status(500).send({ errorMessage: " The question could not be removed" })
         }
     })
 });
@@ -113,78 +105,76 @@ app.route("/api/questions/:id")
 ////////////////////////////OPTIONS////////////////////////////////
 app.route("/api/options")
 .get(async function(req, res){
-    USER.find((err, foundArray)=>{
+    OPTION.find((err, foundArray)=>{
         if(!err){
             res.send(foundArray);
         }else{
-            res.status(500).send({ errorMessage: "The users information could not be retrieved." })
+            res.status(500).send({ errorMessage: "The data could not be retrieved." })
         }
     })
 })
-// Creates a user using the information sent inside the request body.
+// Creates a option using the information sent inside the request body.
 .post(async function(req, res){
-    const newUser = new USER({
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age,
-        prograd_id: req.body.prograd_id,
-        squad: req.body.squad
+    const newOption = new OPTION({
+        optionA: req.body.optionA,
+        optionB: req.body.optionB,
+        optionC: req.body.optionC,
+        optionD: req.body.optionD
     });
 
-    newUser.save(err=>{
+    newOption.save(err=>{
         if(!err){
-            res.status(201).send(newUser);
+            res.status(201).send(newOption);
         }else{
-            res.status(400).send({errorMessage: "Please provide name and email for the user." });
+            res.status(400).send({errorMessage: "Please provide data for the option." });
         }
     });
 });
 
 
 app.route("/api/options/:id")
-// Returns the user object with the specified id.
+// Returns the option object with the specified id.
 .get(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The option with the specified ID does not exist." })
     }
-    USER.findOne({_id: req.params.id}, (err, foundUser)=>{
-        if(foundUser){
-            res.send(foundUser);
+    OPTION.findOne({_id: req.params.id}, (err, foundOption)=>{
+        if(foundOption){
+            res.send(foundOption);
         }else{
-            res.status(500).send({ errorMessage: "The user information could not be retrieved." })
+            res.status(500).send({ errorMessage: "The option information could not be retrieved." })
         }
     })
 })
-// Updates the user with the specified id using data from the request body. Returns the modified user
+// Updates the option with the specified id using data from the request body. Returns the modified option
 .put(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The option with the specified ID does not exist." })
     }
 
-    USER.findByIdAndUpdate({_id:req.params.id}, {
-            name: req.body.name,
-            email: req.body.email,
-            age: req.body.age,
-            prograd_id: req.body.prograd_id,
-            squad: req.body.squad
-        }, {overwrite:true, new:true}, (err, user)=>{
+    OPTION.findByIdAndUpdate({_id:req.params.id}, {
+        optionA: req.body.optionA,
+        optionB: req.body.optionB,
+        optionC: req.body.optionC,
+        optionD: req.body.optionD
+    }, {overwrite:true, new:true}, (err, option)=>{
         if(!err){
-            res.status(200).send(user);
+            res.status(200).send(option);
         }else{
-            res.status(500).send({ errorMessage: "The user information could not be modified." })
+            res.status(500).send({ errorMessage: "The option information could not be modified." })
         }
     })
 })
-// Removes the user with the specified id and returns the deleted user.
+// Removes the option with the specified id and returns the deleted option.
 .delete(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The option with the specified ID does not exist." })
     }
-    USER.deleteOne({_id: req.params.id}, err=>{
+    OPTION.deleteOne({_id: req.params.id}, err=>{
         if(!err){
             res.send("Successfully DELETED "+req.params.id);
         }else{
-            res.status(500).send({ errorMessage: " The user could not be removed" })
+            res.status(500).send({ errorMessage: " The option could not be removed" })
         }
     })
 });
@@ -193,78 +183,70 @@ app.route("/api/options/:id")
 ////////////////////////////ANSWERS////////////////////////////////
 app.route("/api/answers")
 .get(async function(req, res){
-    USER.find((err, foundArray)=>{
+    ANSWER.find((err, foundArray)=>{
         if(!err){
             res.send(foundArray);
         }else{
-            res.status(500).send({ errorMessage: "The users information could not be retrieved." })
+            res.status(500).send({ errorMessage: "The data could not be retrieved." })
         }
     })
 })
-// Creates a user using the information sent inside the request body.
+// Creates a answer using the information sent inside the request body.
 .post(async function(req, res){
-    const newUser = new USER({
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age,
-        prograd_id: req.body.prograd_id,
-        squad: req.body.squad
+    const newAnswer = new ANSWER({
+        answer: req.body.answer
     });
 
-    newUser.save(err=>{
+    newAnswer.save(err=>{
         if(!err){
-            res.status(201).send(newUser);
+            res.status(201).send(newAnswer);
         }else{
-            res.status(400).send({errorMessage: "Please provide name and email for the user." });
+            res.status(400).send({errorMessage: "Please provide data for the answer." });
         }
     });
 });
 
 
 app.route("/api/answers/:id")
-// Returns the user object with the specified id.
+// Returns the answer object with the specified id.
 .get(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The answer with the specified ID does not exist." })
     }
-    USER.findOne({_id: req.params.id}, (err, foundUser)=>{
-        if(foundUser){
-            res.send(foundUser);
+    ANSWER.findOne({_id: req.params.id}, (err, newAnswer)=>{
+        if(newAnswer){
+            res.send(newAnswer);
         }else{
-            res.status(500).send({ errorMessage: "The user information could not be retrieved." })
+            res.status(500).send({ errorMessage: "The answer information could not be retrieved." })
         }
     })
 })
-// Updates the user with the specified id using data from the request body. Returns the modified user
+// Updates the answer with the specified id using data from the request body. Returns the modified answer
 .put(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The answer with the specified ID does not exist." })
     }
 
-    USER.findByIdAndUpdate({_id:req.params.id}, {
-            name: req.body.name,
-            email: req.body.email,
-            age: req.body.age,
-            prograd_id: req.body.prograd_id,
-            squad: req.body.squad
-        }, {overwrite:true, new:true}, (err, user)=>{
+    ANSWER.findByIdAndUpdate({_id:req.params.id}, {
+        answer: req.body.answer
+    }, {overwrite:true, new:true}, (err, answer)=>{
         if(!err){
-            res.status(200).send(user);
+            res.status(200).send(answer);
         }else{
-            res.status(500).send({ errorMessage: "The user information could not be modified." })
+            res.status(500).send({ errorMessage: "The answer information could not be modified." })
         }
     })
 })
-// Removes the user with the specified id and returns the deleted user.
+// Removes the answer with the specified id and returns the deleted answer.
 .delete(async function(req, res){
     if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(404).send({ message: "The user with the specified ID does not exist." })
+        return res.status(404).send({ message: "The answer with the specified ID does not exist." })
     }
-    USER.deleteOne({_id: req.params.id}, err=>{
+    ANSWER.deleteOne({_id: req.params.id}, err=>{
         if(!err){
             res.send("Successfully DELETED "+req.params.id);
         }else{
-            res.status(500).send({ errorMessage: " The user could not be removed" })
+            res.status(500).send({ errorMessage: " The answer could not be removed" })
         }
     })
 });
